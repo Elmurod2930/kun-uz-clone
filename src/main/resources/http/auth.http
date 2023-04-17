@@ -1,0 +1,8 @@
+### Login
+POST localhost:8081/api/v1/auth
+Content-Type:  application/json
+
+{
+  "email": "alish@mail.ru",
+  "password": "123456"
+}
