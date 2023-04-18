@@ -10,3 +10,15 @@ Content-Type:  application/json
   "password": "123456",
   "role": "MODERATOR"
 }
+
+### update profile (admin)
+POST localhost:8081/api/v1/profile/update
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "name": "Alish",
+  "surname": "Aliyev",
+  "email": "alish@mail.ru",
+  "phone": "1213"
+}

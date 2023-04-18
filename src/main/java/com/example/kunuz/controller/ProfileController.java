@@ -7,6 +7,7 @@ import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,23 +33,48 @@ public class ProfileController {
 
     @GetMapping("")
     public ResponseEntity<List<ProfileDTO>> getAll() {
-        return null;
+        List<ProfileDTO> dtoList = profileService.getAll();
+        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDTO> getById(@PathVariable("id") Integer id) {
-        return null;
+        ProfileDTO dto = profileService.getById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id) {
-        return null;
+        ProfileDTO dto = profileService.deleteById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<List<ProfileDTO>> pagination(@RequestParam("page") int page,
+    public ResponseEntity<Page<ProfileDTO>> pagination(@RequestParam("page") int page,
                                                        @RequestParam("size") int size) {
+        Page<ProfileDTO> response = profileService.pagination(page, size);
+        return ResponseEntity.ok(response);
+    }
 
-        return null;
+    @PostMapping("/update")
+    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
+                                             @RequestHeader("Authorization") String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return ResponseEntity.ok(profileService.update(dto));
+    }
+
+    @PostMapping("/update-detail")
+    public ResponseEntity<ProfileDTO> updateDetail(@RequestBody ProfileDTO dto,
+                                                   @RequestHeader("Authorization") String authorization) {
+        String [] str=authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO=JwtUtil.decode(jwt);
+        dto.setId(jwtDTO.getId());
+        return ResponseEntity.ok(profileService.update(dto));
     }
 }
