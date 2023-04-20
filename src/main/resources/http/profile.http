@@ -1,24 +1,31 @@
 ### Create profle
 POST localhost:8081/api/v1/profile
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
 Content-Type:  application/json
 
 {
   "name": "Alish",
-  "surname": "Aliyev",
-  "email": "alish@mail.ru",
-  "phone": "1213",
-  "password": "123456",
+  "surname": "Valiyev",
+  "email": "Valish@mail.ru",
+  "phone": "121314",
+  "password": "12345678",
   "role": "MODERATOR"
 }
 
 ### update profile (admin)
 POST localhost:8081/api/v1/profile/update
-Authorization: Bearer
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
 Content-Type: application/json
 
 {
   "name": "Alish",
   "surname": "Aliyev",
-  "email": "alish@mail.ru",
+  "email": "Alish@mail.ru",
   "phone": "1213"
 }
+
+### profile pagination
+GET localhost:8081/api/v1/profile/pagination?page=1&size=6
+
+### delete profile
+DELETE localhost:8081/api/v1/profile/3

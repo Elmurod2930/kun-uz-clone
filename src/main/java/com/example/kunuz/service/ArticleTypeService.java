@@ -50,13 +50,13 @@ public class ArticleTypeService {
 
     public void isValidProfile(ArticleTypeDTO dto) {
         // throw ...
-        if (dto.getNameUz() != null) {
+        if (dto.getNameUz() == null) {
             throw new AppBadRequestException("invalid name uz");
         }
-        if (dto.getNameEn() != null) {
+        if (dto.getNameEn() == null) {
             throw new AppBadRequestException("invalid name en");
         }
-        if (dto.getNameRu() != null) {
+        if (dto.getNameRu() == null) {
             throw new AppBadRequestException("invalid name ru");
         }
     }

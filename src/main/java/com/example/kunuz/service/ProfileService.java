@@ -50,16 +50,16 @@ public class ProfileService {
         if (dto.getPhone().isEmpty()) {
             throw new AppBadRequestException("invalid phone");
         }
-        if (dto.getSurname() != null) {
+        if (dto.getSurname().isEmpty()) {
             throw new AppBadRequestException("invalid surname");
         }
-        if (dto.getName() != null) {
+        if (dto.getName().isEmpty()) {
             throw new AppBadRequestException("invalid name");
         }
-        if (dto.getRole() != null) {
+        if (dto.getRole() == null) {
             throw new AppBadRequestException("invalid role");
         }
-        if (dto.getPassword() != null) {
+        if (dto.getPassword() == null) {
             throw new AppBadRequestException("invalid password");
         }
     }
@@ -90,13 +90,14 @@ public class ProfileService {
         return entityToDto(entity.orElse(null));
     }
 
-    public ProfileDTO deleteById(Integer id) {
+    public Boolean deleteById(Integer id) {
         Optional<ProfileEntity> optional = profileRepository.findById(id);
         if (optional.isPresent()) {
             ProfileEntity entity = optional.get();
             entity.setId(id);
             entity.setVisible(false);
             profileRepository.save(entity);
+            return true;
         }
         throw new AppBadRequestException("not found profile");
     }
@@ -133,6 +134,7 @@ public class ProfileService {
                 entity.setRole(dto.getRole());
             }
             profileRepository.save(entity);
+            return dto;
         }
         throw new AppBadRequestException("not found profile");
     }

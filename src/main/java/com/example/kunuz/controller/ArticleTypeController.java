@@ -66,7 +66,7 @@ public class ArticleTypeController {
         }
         return ResponseEntity.ok(articleTypeService.getAll());
     }
-    @GetMapping("/getByLang/{lang}")
+    @GetMapping("/{lang}")
     public ResponseEntity<List<ArticleTypeDTO>> getByLang(@PathVariable String lang){
         return ResponseEntity.ok(articleTypeService.getByLang(lang));
     }

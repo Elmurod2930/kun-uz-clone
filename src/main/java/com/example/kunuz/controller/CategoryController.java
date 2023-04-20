@@ -19,7 +19,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<CategoryDTO> create(@RequestBody CategoryDTO dto,
                                               @RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
@@ -56,7 +56,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.deleteById(id));
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<CategoryDTO>> getAll(@RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];

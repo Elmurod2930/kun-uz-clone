@@ -1,0 +1,26 @@
+### create ArticleType
+POST localhost:8081/api/v1/articleType/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+Content-Type: application/json
+
+{
+  "nameUz": "jahon",
+  "nameRu": "mir",
+  "nameEn": "world"
+}
+
+### update ArticleType
+POST localhost:8081/api/v1/articleType/update/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+Content-Type: application/json
+
+{
+  "nameUz": "dunyo"
+}
+
+### delete ArticleType
+DELETE localhost:8081/api/v1/articleType/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+
+### get by lang
+GET localhost:8081/api/v1/articleType/uz

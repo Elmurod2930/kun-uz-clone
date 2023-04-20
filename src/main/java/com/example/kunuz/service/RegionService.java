@@ -56,6 +56,7 @@ public class RegionService {
             if (dto.getNameUz() != null) {
                 entity.setNameUz(dto.getNameUz());
             }
+            entity.setId(id);
             regionRepository.save(entity);
             return dto;
         }
@@ -74,7 +75,7 @@ public class RegionService {
     }
 
     public List<RegionDTO> getAll() {
-        Iterable<RegionEntity> entityIterable = regionRepository.findAll();
+        Iterable<RegionEntity> entityIterable = regionRepository.getAll();
         List<RegionDTO> dtoList = new LinkedList<>();
         for (RegionEntity entity : entityIterable) {
             dtoList.add(entityToDTO(entity));
@@ -93,18 +94,17 @@ public class RegionService {
 
     public List<RegionDTO> getByLang(String lang) {
         List<RegionEntity> entityList = null;
+        List<RegionDTO> dtoList = new LinkedList<>();
         if (lang.equals("en")) {
             entityList = regionRepository.findByNameEng();
         } else if (lang.equals("ru")) {
             entityList = regionRepository.findByNameRu();
         } else if (lang.equals("uz")) {
-            entityList = regionRepository.findByNameUz();
+            for (RegionEntity entity : regionRepository.findByNameUz()) {
+                dtoList.add(entityToDTO(entity));
+            }
         } else {
             throw new AppBadRequestException("not found '" + lang + "'");
-        }
-        List<RegionDTO> dtoList = new LinkedList<>();
-        for (RegionEntity entity : entityList) {
-            dtoList.add(entityToDTO(entity));
         }
         return dtoList;
     }

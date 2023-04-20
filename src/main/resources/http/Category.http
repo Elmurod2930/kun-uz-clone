@@ -1,0 +1,27 @@
+### create category
+POST localhost:8081/api/v1/category/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+Content-Type: application/json
+
+{
+  "nameUz": "Uzbekisto",
+  "nameRu": "Узбекистан",
+  "nameEn": "Uzbekistan"
+}
+
+### update category
+POST localhost:8081/api/v1/category/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+Content-Type: application/json
+
+{
+  "nameUz": "Uzbekiston"
+}
+
+### delete category
+DELETE localhost:8081/api/v1/category/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+
+### get all
+GET localhost:8081/api/v1/category/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA

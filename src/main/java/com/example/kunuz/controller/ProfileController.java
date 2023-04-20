@@ -30,6 +30,19 @@ public class ProfileController {
         }
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
+    @PostMapping("/update")
+    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
+                                             @RequestHeader("Authorization") String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        dto.setId(jwtDTO.getId());
+        return ResponseEntity.ok(profileService.update(dto));
+    }
+
 
     @GetMapping("")
     public ResponseEntity<List<ProfileDTO>> getAll() {
@@ -44,9 +57,8 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id) {
-        ProfileDTO dto = profileService.deleteById(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(profileService.deleteById(id));
     }
 
     @GetMapping("/pagination")
@@ -54,18 +66,6 @@ public class ProfileController {
                                                        @RequestParam("size") int size) {
         Page<ProfileDTO> response = profileService.pagination(page, size);
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/update")
-    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
-        return ResponseEntity.ok(profileService.update(dto));
     }
 
     @PostMapping("/update-detail")

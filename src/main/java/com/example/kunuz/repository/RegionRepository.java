@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface RegionRepository extends CrudRepository<RegionEntity, Integer>,
         PagingAndSortingRepository<RegionEntity, Integer> {
+    @Query(" from RegionEntity where visible = true")
+    List<RegionEntity> getAll();
+
     @Query("select id,nameEn from RegionEntity where visible=true ")
     List<RegionEntity> findByNameEng();
 

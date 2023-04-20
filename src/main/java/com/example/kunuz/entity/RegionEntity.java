@@ -2,12 +2,14 @@ package com.example.kunuz.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "region")
+@NoArgsConstructor
 @Setter
 @Getter
 public class RegionEntity {
@@ -25,4 +27,10 @@ public class RegionEntity {
     private Boolean visible = Boolean.TRUE;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
+
+
+    public RegionEntity(Integer id, String nameUz) {
+        this.id = id;
+        this.nameUz = nameUz;
+    }
 }
