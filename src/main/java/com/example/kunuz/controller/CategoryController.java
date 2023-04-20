@@ -71,9 +71,4 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getByLang(@PathVariable String lang) {
         return ResponseEntity.ok(categoryService.getByLang(lang));
     }
-
-    @GetMapping
-    public String HomeController(){
-        return "Kun.uz is running";
-    }
 }
