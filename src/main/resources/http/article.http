@@ -1,0 +1,2 @@
+### Article Short Info
+GET localhost:8081/api/v1/articleType/?typeId&count    => type bn count ni berib yuborish kk

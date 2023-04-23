@@ -22,14 +22,11 @@ public class ProfileController {
     @PostMapping({"", "/"})
     public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
+
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
+
     @PostMapping("/update")
     public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
@@ -44,7 +41,7 @@ public class ProfileController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<ProfileDTO>> getAll() {
         List<ProfileDTO> dtoList = profileService.getAll();
         return ResponseEntity.ok(dtoList);
@@ -71,9 +68,9 @@ public class ProfileController {
     @PostMapping("/update-detail")
     public ResponseEntity<ProfileDTO> updateDetail(@RequestBody ProfileDTO dto,
                                                    @RequestHeader("Authorization") String authorization) {
-        String [] str=authorization.split(" ");
+        String[] str = authorization.split(" ");
         String jwt = str[1];
-        JwtDTO jwtDTO=JwtUtil.decode(jwt);
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
         dto.setId(jwtDTO.getId());
         return ResponseEntity.ok(profileService.update(dto));
     }

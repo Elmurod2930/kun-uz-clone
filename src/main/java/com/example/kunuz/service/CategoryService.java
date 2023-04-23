@@ -74,7 +74,7 @@ public class CategoryService {
             dto.setId(entity.getId());
             return dto;
         }
-        throw new CategoryNotFoundException("category not found exception");
+        throw new CategoryNotFoundException("category not found");
     }
 
     public Boolean deleteById(Integer id) {
