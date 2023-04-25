@@ -1,0 +1,9 @@
+### get email history by email
+GET localhost:8081/api/v1/email-history/shirinovelmurod@gmail.com
+
+### Get EmailHistory  by given date
+GET localhost:8081/api/v1/email-history/?email=shirinovelmurod@gmail.com&date=2023-04-25
+
+### Pagination (ADMIN)
+GET localhost:8081/api/v1/email-history/pagination?page=1&size=5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MjM3OTgsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI1MTAxOTgsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.wWFygs0cJAEecLbVJ23IMbiT-F9kTO4WQCR9hWDWTxQbgO0nyp3iBHtp4PjOFx5Wdrd1xTMIpm08fqy-u94j0w

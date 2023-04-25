@@ -26,8 +26,8 @@ public class EmailHistoryController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<EmailHistoryDTO>> getEmailHistoryByDate(@RequestParam String email,
-                                                                       @RequestParam LocalDate date) {
+    public ResponseEntity<List<EmailHistoryDTO>> getEmailHistoryByDate(@RequestParam("email") String email,
+                                                                       @RequestParam("date") LocalDate date) {
         List<EmailHistoryDTO> list = emailHistoryService.getHistory(email, date);
         return ResponseEntity.ok(list);
     }

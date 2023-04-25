@@ -13,6 +13,6 @@ public interface EmailHistoryRepository extends CrudRepository<EmailHistoryEntit
         PagingAndSortingRepository<EmailHistoryEntity, Integer> {
     List<EmailHistoryEntity> findAllByEmail(String email);
 
-    @Query(value = "select e from EmailHistoryEntity e where email=:email and created_date>=:dateFrom and created_date <= :dateTo", nativeQuery = true)
+    @Query(value = "select * from email_history where email=:email and created_date>=:dateFrom and created_date <= :dateTo", nativeQuery = true)
     List<EmailHistoryEntity> findByEmailAndDate(@Param("email") String email, @Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 }

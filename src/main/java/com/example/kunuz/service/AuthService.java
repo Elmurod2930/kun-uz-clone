@@ -9,6 +9,7 @@ import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
+import com.example.kunuz.repository.EmailHistoryRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.JwtUtil;
 import com.example.kunuz.util.MD5Util;
@@ -23,6 +24,8 @@ public class AuthService {
     private ProfileRepository profileRepository;
     @Autowired
     private MailSenderService mailSenderService;
+    @Autowired
+    private EmailHistoryRepository emailHistoryRepository;
 
 
     public AuthResponseDTO login(AuthDTO dto) {

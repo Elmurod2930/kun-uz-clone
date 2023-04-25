@@ -42,10 +42,10 @@ public class EmailHistoryService {
         if (email == null) {
             throw new AppBadRequestException("invalid email");
         }
-        if (!email.substring(email.length() - 10).equals("@gmail.com") ||
-                !email.substring(email.length() - 8).equals("@mail.ru")) {
-            throw new AppBadRequestException("invalid email");
-        }
+//        if (!email.substring(email.length() - 10).equals("@gmail.com") ||
+//                !email.substring(email.length() - 8).equals("@mail.ru")) {
+//            throw new AppBadRequestException("invalid email");
+//        }
         LocalDateTime dateFrom = LocalDateTime.of(date, LocalTime.MIN);
         LocalDateTime dateTo = LocalDateTime.of(date, LocalTime.MAX);
         List<EmailHistoryEntity> entityList = emailHistoryRepository.findByEmailAndDate(email, dateFrom, dateTo);

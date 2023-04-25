@@ -1,5 +1,7 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.entity.EmailHistoryEntity;
+import com.example.kunuz.repository.EmailHistoryRepository;
 import com.example.kunuz.util.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -17,6 +19,8 @@ public class MailSenderService {
     private String fromAccount;
     @Value("${server.host}")
     private String serverHost;
+    @Autowired
+    private EmailHistoryRepository emailHistoryRepository;
 
     public void sendRegistrationEmailMime(String toAccount) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -28,6 +32,11 @@ public class MailSenderService {
         stringBuilder.append(JwtUtil.encode(toAccount)).append("\">");
         stringBuilder.append("Click to the link to complete registration</a></p>");
         sendEmailMime(toAccount, "Registration", stringBuilder.toString());
+
+        EmailHistoryEntity entity = new EmailHistoryEntity();
+        entity.setEmail(toAccount);
+        entity.setMassage(stringBuilder.toString());
+        emailHistoryRepository.save(entity);
     }
 
     private void sendEmailMime(String toAccount, String subject, String text) {
