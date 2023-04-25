@@ -1,6 +1,6 @@
 package com.example.kunuz.util;
 
-import com.example.kunuz.dto.JwtDTO;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import io.jsonwebtoken.*;

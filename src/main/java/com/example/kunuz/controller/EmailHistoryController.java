@@ -1,15 +1,12 @@
 package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.EmailHistoryDTO;
-import com.example.kunuz.dto.JwtDTO;
-import com.example.kunuz.entity.RegionEntity;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.EmailHistoryService;
 import com.example.kunuz.util.JwtUtil;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

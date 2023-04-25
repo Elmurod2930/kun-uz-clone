@@ -1,17 +1,14 @@
-package com.example.kunuz.dto;
+package com.example.kunuz.dto.auth;
 
 import com.example.kunuz.enums.ProfileRole;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class ProfileDTO {
-    private Integer id;
+@Setter
+public class AuthResponseDTO {
     private String name;
     private String surname;
-    private String email;
-    private String phone;
-    private String password;
     private ProfileRole role;
+    private String jwt;
 }

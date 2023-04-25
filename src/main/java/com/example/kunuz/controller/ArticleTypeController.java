@@ -1,8 +1,7 @@
 package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.ArticleTypeDTO;
-import com.example.kunuz.dto.JwtDTO;
-import com.example.kunuz.dto.ProfileDTO;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.ArticleTypeService;

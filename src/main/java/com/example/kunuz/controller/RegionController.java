@@ -1,13 +1,11 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.JwtDTO;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.dto.RegionDTO;
-import com.example.kunuz.entity.RegionEntity;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.RegionService;
 import com.example.kunuz.util.JwtUtil;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

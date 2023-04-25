@@ -1,7 +1,7 @@
 package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.ArticleDTO;
-import com.example.kunuz.dto.JwtDTO;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleService;
 import com.example.kunuz.util.JwtUtil;

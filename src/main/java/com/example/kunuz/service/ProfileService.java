@@ -1,6 +1,6 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.ProfileDTO;
+import com.example.kunuz.dto.profile.ProfileDTO;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.exps.AppBadRequestException;

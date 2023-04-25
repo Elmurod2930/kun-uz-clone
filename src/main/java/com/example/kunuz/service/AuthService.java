@@ -1,10 +1,12 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.AuthDTO;
-import com.example.kunuz.dto.AuthResponseDTO;
-import com.example.kunuz.dto.RegistrationResponseDTO;
+import com.example.kunuz.dto.auth.AuthDTO;
+import com.example.kunuz.dto.auth.AuthResponseDTO;
+import com.example.kunuz.dto.auth.RegistrationDTO;
+import com.example.kunuz.dto.auth.RegistrationResponseDTO;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
+import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ProfileRepository;
@@ -21,6 +23,7 @@ public class AuthService {
     private ProfileRepository profileRepository;
     @Autowired
     private MailSenderService mailSenderService;
+
 
     public AuthResponseDTO login(AuthDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndPasswordAndVisible(
@@ -56,5 +59,43 @@ public class AuthService {
         entity.setStatus(GeneralStatus.ACTIVE);
         profileRepository.save(entity);
         return new RegistrationResponseDTO("Registration Done");
+    }
+
+    public RegistrationResponseDTO registration(RegistrationDTO dto) {
+        isValidRegistrationDTO(dto);
+        Optional<ProfileEntity> optionProfileEmail = profileRepository.findByEmail(dto.getEmail());
+//        Optional<ProfileEntity> optionProfilePhone = profileRepository.findByPhone(dto.getPhone());
+        if (optionProfileEmail.isPresent()) {
+            throw new ItemNotFoundException("Email/phone already exists");
+        }
+        ProfileEntity entity = new ProfileEntity();
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
+        entity.setPassword(MD5Util.getMd5Hash(dto.getPassword()));
+        entity.setSurname(dto.getSurname());
+        entity.setName(dto.getName());
+        entity.setStatus(GeneralStatus.REGISTER);
+        entity.setRole(ProfileRole.USER);
+
+        mailSenderService.sendRegistrationEmailMime(dto.getEmail());
+
+        profileRepository.save(entity);
+        String s = "Verification link was send to email: " + dto.getEmail();
+        return new RegistrationResponseDTO(s);
+    }
+
+    public void isValidRegistrationDTO(RegistrationDTO dto) {
+        if (dto.getName() == null) {
+            throw new AppBadRequestException("invalid name");
+        }
+        if (dto.getSurname() == null) {
+            throw new AppBadRequestException("invalid surname");
+        }
+        if (dto.getPhone() == null && dto.getEmail() == null) {
+            throw new AppBadRequestException("invalid email and phone");
+        }
+        if (dto.getPassword() == null) {
+            throw new AppBadRequestException("invalid password");
+        }
     }
 }

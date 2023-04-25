@@ -1,4 +1,4 @@
-package com.example.kunuz.dto;
+package com.example.kunuz.dto.jwt;
 
 import com.example.kunuz.enums.ProfileRole;
 import lombok.AllArgsConstructor;

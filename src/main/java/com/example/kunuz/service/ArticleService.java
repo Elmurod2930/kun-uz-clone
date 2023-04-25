@@ -1,7 +1,7 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.ArticleDTO;
-import com.example.kunuz.dto.JwtDTO;
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.entity.ArticleEntity;
 import com.example.kunuz.entity.ArticleTypeEntity;
 import com.example.kunuz.entity.CategoryEntity;
