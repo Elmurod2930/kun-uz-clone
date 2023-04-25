@@ -1,2 +1,39 @@
 ### Article Short Info
-GET localhost:8081/api/v1/articleType/?typeId&count    => type bn count ni berib yuborish kk
+GET localhost:8081/api/v1/article/show?1&3
+
+### create article
+POST localhost:8081/api/v1/article/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNTA0MjQyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.al_Bvt5s40Y4hZQtH-0NGB_hvDPJ-keXHUUa8kJOvp1c1M2d-SEqryhYa9hCf0cTe--aUowu1MM4e1VOhtUDIw
+Content-Type: application/json
+
+{
+  "title": "ccccccccc",
+  "description": "ccccccccccccc",
+  "content": "ccccccccc",
+  "shared_count": 0,
+  "image_id": 4,
+  "region_id": 1,
+  "category_id": 1
+}
+
+### update article
+POST localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNTA0MjQyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.al_Bvt5s40Y4hZQtH-0NGB_hvDPJ-keXHUUa8kJOvp1c1M2d-SEqryhYa9hCf0cTe--aUowu1MM4e1VOhtUDIw
+Content-Type: application/json
+
+{
+  "title": "aaaaaaa",
+  "description": "aaa",
+  "content": "aaaaaaaaa",
+  "shared_count": 0,
+  "image_id": 4,
+  "region_id": 1,
+  "category_id": 1
+}
+
+### delete article
+DELETE localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNTA0MjQyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.al_Bvt5s40Y4hZQtH-0NGB_hvDPJ-keXHUUa8kJOvp1c1M2d-SEqryhYa9hCf0cTe--aUowu1MM4e1VOhtUDIw
+
+### change status
+PUT localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3

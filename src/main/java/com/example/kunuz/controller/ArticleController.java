@@ -31,26 +31,26 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.update(dto, id));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     private ResponseEntity<Boolean> delete(@PathVariable String id,
                                            @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.delete(id));
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     private ResponseEntity<ArticleDTO> changeStatus(@PathVariable String id) {
         return ResponseEntity.ok(articleService.changeStatus(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("/show")
     private ResponseEntity<List<ArticleDTO>> articleShortInfo(@RequestParam Integer typeId, @RequestParam Integer count) {
         List<ArticleDTO> dtoList = articleService.articleShortInfo(typeId, count);
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/param")
-    private ResponseEntity<List<ArticleDTO>> articleShortInfo(@RequestParam List<Integer> idList) {
+    @GetMapping("/{param}")
+    private ResponseEntity<List<ArticleDTO>> articleShortInfo(@PathVariable List<Integer> idList) {
         List<ArticleDTO> dtoList = articleService.articleShortInfo(idList);
         return ResponseEntity.ok(dtoList);
     }

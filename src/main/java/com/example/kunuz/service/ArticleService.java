@@ -133,6 +133,7 @@ public class ArticleService {
                 entity.setStatus(PublisherStatus.PUBLISHED);
             }
             articleRepository.save(entity);
+            return entityToDTO(entity);
         }
         throw new ArticleNotFoundException("article not found");
     }

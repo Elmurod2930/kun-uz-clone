@@ -15,10 +15,8 @@ public class JwtUtil {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setIssuedAt(new Date());
         jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
-
         jwtBuilder.claim("id", profileId);
         jwtBuilder.claim("role", role);
-
         jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
         jwtBuilder.setIssuer("Kunuz test portali");
         return jwtBuilder.compact();
@@ -27,16 +25,11 @@ public class JwtUtil {
         try {
             JwtParser jwtParser = Jwts.parser();
             jwtParser.setSigningKey(secretKey);
-
             Jws<Claims> jws = jwtParser.parseClaimsJws(token);
-
             Claims claims = jws.getBody();
-
             Integer id = (Integer) claims.get("id");
-
             String role = (String) claims.get("role");
             ProfileRole profileRole = ProfileRole.valueOf(role);
-
             return new JwtDTO(id, profileRole);
         } catch (JwtException e) {
             e.printStackTrace();
