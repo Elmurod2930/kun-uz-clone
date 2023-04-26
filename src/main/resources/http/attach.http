@@ -1,0 +1,32 @@
+POST http://localhost:8081/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test_imge_1.jpg"
+
+< C:\Users\user\Desktop\New folder\car.jfif
+
+### video
+POST http://192.168.0.146:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="333.mp4"
+
+< C:\Users\BigMan\Desktop\11\333.mp4
+
+#< C:\Users\BigMan\Desktop\11\test_imge_1.jpg
+
+
+### open general by id
+GET localhost:8081/api/v1/attach/open_general_by_id/3444a8ce-6f69-4e1f-ac7b-959290d5652b
+
+### open general by name
+GET localhost:8081/api/v1/attach/open_general_file_name/3444a8ce-6f69-4e1f-ac7b-959290d5652b.jpg
+
+### Download (by id  with origin name)
+GET localhost:8081/api/v1/attach/downloadById/3444a8ce-6f69-4e1f-ac7b-959290d5652b
+
+### pagination
+GET localhost:8081/api/v1/attach/pagination?page=1&size=4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI1MTY0MTksImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI2MDI4MTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.MZNqO_g5K26GBiJgI1XXGuce8stUuyw76mQq-M3hDox5cmQnhU3PserWeB5sp_lyFLkN9AuW0OpoW-3fQMYKpQ

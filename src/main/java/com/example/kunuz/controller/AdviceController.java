@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class AdviceController {
     @ExceptionHandler({AppBadRequestException.class, ArticleTypeNotFoundException.class,
             CategoryNotFoundException.class, ItemNotFoundException.class,
-            MethodNotAllowedException.class, RegionNotFoundException.class, ArticleNotFoundException.class})
+            MethodNotAllowedException.class, RegionNotFoundException.class, ArticleNotFoundException.class,
+            ProfileNotFoundException.class, AttachNotFoundException.class})
 
     public ResponseEntity<String> handleException(RuntimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());

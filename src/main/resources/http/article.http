@@ -1,5 +1,5 @@
 ### Article Short Info
-GET localhost:8081/api/v1/article/show?1&3
+GET localhost:8081/api/v1/article/1
 
 ### create article
 POST localhost:8081/api/v1/article/
@@ -37,3 +37,4 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb
 
 ### change status
 PUT localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3
+

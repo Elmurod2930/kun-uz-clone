@@ -138,13 +138,13 @@ public class ArticleService {
         throw new ArticleNotFoundException("article not found");
     }
 
-    public List<ArticleDTO> articleShortInfo(Integer typeId, Integer count) {
+    public List<ArticleDTO> articleShortInfo(Integer typeId) {
         Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(typeId);
         if (optional.isEmpty()) {
             throw new ArticleTypeNotFoundException("not found type");
         }
         ArticleTypeEntity typeEntity = optional.get();
-        List<ArticleEntity> entityList = articleRepository.findAllByType(typeEntity, count);
+        List<ArticleEntity> entityList = articleRepository.findAllByType(typeEntity);
         List<ArticleDTO> dtoList = new LinkedList<>();
         for (ArticleEntity entity : entityList) {
             dtoList.add(entityToDTO(entity));

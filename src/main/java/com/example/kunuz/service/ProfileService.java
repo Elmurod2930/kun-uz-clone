@@ -1,9 +1,17 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.dto.profile.ProfileDTO;
+import com.example.kunuz.dto.profile.ProfileFilterRequestDTO;
+import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.exps.AppBadRequestException;
+import com.example.kunuz.exps.AttachNotFoundException;
+import com.example.kunuz.exps.ItemNotFoundException;
+import com.example.kunuz.exps.ProfileNotFoundException;
+import com.example.kunuz.repository.AttachRepository;
+import com.example.kunuz.repository.ProfileCustomRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +27,10 @@ import java.util.Optional;
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private AttachRepository attachRepository;
+    @Autowired
+    private ProfileCustomRepository profileCustomRepository;
 
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
         // check - homework
@@ -139,5 +151,28 @@ public class ProfileService {
         throw new AppBadRequestException("not found profile");
     }
 
+    public ProfileDTO updatePhoto(JwtDTO jwtDTO, String photoId) {
+        Optional<ProfileEntity> optionalProfile = profileRepository.findById(jwtDTO.getId());
+        if (optionalProfile.isEmpty()) {
+            throw new ProfileNotFoundException("not found profile");
+        }
+        Optional<AttachEntity> optionalAttach = attachRepository.findById(photoId);
+        if (optionalAttach.isEmpty()) {
+            throw new AttachNotFoundException("not found attach");
+        }
+        ProfileEntity entity = optionalProfile.get();
+        // todo  entity.getPhoto() photo delete qilish kk
+        entity.setPhoto(optionalAttach.get());
+        profileRepository.save(entity);
+        return entityToDto(entity);
+    }
 
+    public List<ProfileDTO> filter(ProfileFilterRequestDTO filterRequestDTO) {
+        List<ProfileEntity> entityList = profileCustomRepository.filter(filterRequestDTO);
+        List<ProfileDTO> dtoList = new LinkedList<>();
+        for (ProfileEntity entity : entityList) {
+            dtoList.add(entityToDto(entity));
+        }
+        return dtoList;
+    }
 }

@@ -43,9 +43,9 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.changeStatus(id));
     }
 
-    @GetMapping("/show")
-    private ResponseEntity<List<ArticleDTO>> articleShortInfo(@RequestParam Integer typeId, @RequestParam Integer count) {
-        List<ArticleDTO> dtoList = articleService.articleShortInfo(typeId, count);
+    @GetMapping("/{typeId}")
+    private ResponseEntity<List<ArticleDTO>> articleShortInfo(@PathVariable("typeId") Integer typeId) {
+        List<ArticleDTO> dtoList = articleService.articleShortInfo(typeId);
         return ResponseEntity.ok(dtoList);
     }
 
