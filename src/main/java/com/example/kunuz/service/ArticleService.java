@@ -10,8 +10,13 @@ import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ArticleNotFoundException;
 import com.example.kunuz.repository.ArticleRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.swing.event.ListDataEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -191,6 +196,52 @@ public class ArticleService {
         ArticleTypeEntity typeEntity = articleTypeService.get(type);
         RegionEntity region = regionService.get(regionName);
         List<ArticleEntity> entityList = articleRepository.findByTypeAndRegion(typeEntity, region);
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        for (ArticleEntity entity : entityList) {
+            dtoList.add(toShortInfo(entity));
+        }
+        return dtoList;
+    }
+
+    public List<ArticleShortInfoDTO> getRegionArticle(Integer id, int size, int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<ArticleEntity> entityPage = articleRepository.findByRegionId(id, pageable);
+        long totalCount = entityPage.getTotalElements();
+        List<ArticleEntity> entityList = entityPage.getContent();
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        for (ArticleEntity entity : entityList) {
+            dtoList.add(toShortInfo(entity));
+        }
+        return dtoList;
+    }
+
+    public List<ArticleShortInfoDTO> get5CategoryArticle(Integer id) {
+        CategoryEntity category = categoryService.get(id);
+        List<ArticleEntity> entityList = articleRepository.get5CategoryArticle(category);
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        for (ArticleEntity entity : entityList) {
+            dtoList.add(toShortInfo(entity));
+        }
+        return dtoList;
+    }
+
+    public List<ArticleShortInfoDTO> getCategoryArticle(Integer id, int size, int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<ArticleEntity> entityPage = articleRepository.findByCategoryId(id, pageable);
+        long totalCount = entityPage.getTotalElements();
+        List<ArticleEntity> entityList = entityPage.getContent();
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        for (ArticleEntity entity : entityList) {
+            dtoList.add(toShortInfo(entity));
+        }
+        return dtoList;
+    }
+
+    public List<ArticleShortInfoDTO> get4ArticleByTypes(Integer typeId, String articleId) {
+        ArticleTypeEntity type = articleTypeService.get(typeId);
+        List<ArticleEntity> entityList = articleRepository.findByTypeIdAndIdNot(type, articleId);
         List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
         for (ArticleEntity entity : entityList) {
             dtoList.add(toShortInfo(entity));

@@ -108,7 +108,7 @@ public class ProfileService {
 
     public Page<ProfileDTO> pagination(int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
-        Pageable paging = PageRequest.of(page - 1, size,sort);
+        Pageable paging = PageRequest.of(page - 1, size, sort);
         Page<ProfileEntity> pageObj = profileRepository.findAll(paging);
         long totalCount = pageObj.getTotalElements();
         List<ProfileEntity> entityList = pageObj.getContent();
