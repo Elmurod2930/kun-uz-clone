@@ -1,6 +1,6 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.AttachDTO;
+import com.example.kunuz.dto.attach.AttachDTO;
 import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.AttachRepository;
@@ -20,7 +20,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;

@@ -1,11 +1,10 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.EmailHistoryDTO;
-import com.example.kunuz.dto.jwt.JwtDTO;
+import com.example.kunuz.dto.email.EmailHistoryDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.EmailHistoryService;
 import com.example.kunuz.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/email-history")
+@AllArgsConstructor
 public class EmailHistoryController {
-    @Autowired
-    private EmailHistoryService emailHistoryService;
+    private final EmailHistoryService emailHistoryService;
 
     @GetMapping("/{email}")
     public ResponseEntity<List<EmailHistoryDTO>> getEmailHistoryByEmail(@PathVariable String email) {
@@ -35,7 +34,7 @@ public class EmailHistoryController {
     @GetMapping("/pagination")
     public ResponseEntity<Page<EmailHistoryDTO>> pagination(@RequestParam("page") int page, @RequestParam("size") int size,
                                                             @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
-        return ResponseEntity.ok(emailHistoryService.pagination(page,size));
+        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        return ResponseEntity.ok(emailHistoryService.pagination(page, size));
     }
 }

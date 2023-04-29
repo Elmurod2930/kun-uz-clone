@@ -16,11 +16,11 @@ public class AttachEntity {
     private String id;
     @Column(name = "original_name")
     private String originalName;
-    @Column
+    @Column(name = "path")
     private String path;
-    @Column
+    @Column(name = "size")
     private Long size;
-    @Column
+    @Column(name = "extension")
     private String extension;
     @Column(name = "created_date")
     private LocalDateTime createdData=LocalDateTime.now();

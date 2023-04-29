@@ -1,11 +1,13 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.CategoryDTO;
+import com.example.kunuz.dto.category.CategoryDTO;
+import com.example.kunuz.dto.category.CategoryRequestDTO;
 import com.example.kunuz.entity.CategoryEntity;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.CategoryNotFoundException;
+import com.example.kunuz.exps.ProfileNotFoundException;
 import com.example.kunuz.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -13,29 +15,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<CategoryDTO> getByLang(String lang) {
-        List<CategoryEntity> entityList = null;
+        List<CategoryEntity> entityList;
         List<CategoryDTO> dtoList = new LinkedList<>();
-        if (lang.equals("en")) {
-            entityList = categoryRepository.findByNameEn();
-        } else if (lang.equals("ru")) {
-            entityList = categoryRepository.findByNameRu();
-        } else if (lang.equals("uz")) {
-            entityList = categoryRepository.findByNameUz();
-        } else {
-            throw new AppBadRequestException("not found '" + lang + "'");
-        }
+        entityList = switch (lang) {
+            case "en" -> categoryRepository.findByNameEn();
+            case "ru" -> categoryRepository.findByNameRu();
+            case "uz" -> categoryRepository.findByNameUz();
+            default -> throw new AppBadRequestException("not found '" + lang + "'");
+        };
         for (CategoryEntity entity : entityList) {
             dtoList.add(entityToDTO(entity));
         }
         return dtoList;
     }
 
-    public CategoryDTO create(CategoryDTO dto) {
+    public CategoryRequestDTO create(CategoryRequestDTO dto) {
         isValidRegion(dto);
         CategoryEntity entity = new CategoryEntity();
         entity.setNameEn(dto.getNameEn());
@@ -45,7 +44,7 @@ public class CategoryService {
         return dto;
     }
 
-    public void isValidRegion(CategoryDTO dto) {
+    public void isValidRegion(CategoryRequestDTO dto) {
         if (dto.getNameUz().isEmpty() || dto.getNameUz().isBlank()) {
             throw new AppBadRequestException("invalid name uz");
         }
@@ -71,7 +70,6 @@ public class CategoryService {
                 entity.setNameEn(dto.getNameEn());
             }
             categoryRepository.save(entity);
-            dto.setId(entity.getId());
             return dto;
         }
         throw new CategoryNotFoundException("category not found");
@@ -99,10 +97,17 @@ public class CategoryService {
 
     public CategoryDTO entityToDTO(CategoryEntity entity) {
         CategoryDTO dto = new CategoryDTO();
-        dto.setId(entity.getId());
         dto.setNameEn(entity.getNameEn());
         dto.setNameUz(entity.getNameUz());
         dto.setNameRu(entity.getNameRu());
         return dto;
+    }
+
+    public CategoryEntity get(Integer categoryId) {
+        Optional<CategoryEntity> optional = categoryRepository.findById(categoryId);
+        if (optional.isEmpty()) {
+            throw new ProfileNotFoundException("profile not found");
+        }
+        return optional.get();
     }
 }

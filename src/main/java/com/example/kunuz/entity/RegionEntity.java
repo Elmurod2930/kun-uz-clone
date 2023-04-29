@@ -16,7 +16,6 @@ public class RegionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    // key
     @Column(name = "name_uz")
     private String nameUz;
     @Column(name = "name_ru")
@@ -27,7 +26,6 @@ public class RegionEntity {
     private Boolean visible = Boolean.TRUE;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
-
 
     public RegionEntity(Integer id, String nameUz) {
         this.id = id;

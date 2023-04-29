@@ -1,4 +1,4 @@
-package com.example.kunuz.dto;
+package com.example.kunuz.dto.attach;
 
 import lombok.Getter;
 import lombok.Setter;

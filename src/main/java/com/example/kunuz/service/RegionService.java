@@ -1,27 +1,26 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.RegionDTO;
-import com.example.kunuz.entity.ArticleTypeEntity;
+import com.example.kunuz.dto.region.RegionDTO;
+import com.example.kunuz.dto.region.RegionRequestDTO;
 import com.example.kunuz.entity.RegionEntity;
 import com.example.kunuz.exps.AppBadRequestException;
+import com.example.kunuz.exps.ProfileNotFoundException;
 import com.example.kunuz.exps.RegionNotFoundException;
 import com.example.kunuz.repository.RegionRepository;
-import jakarta.persistence.Access;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class RegionService {
-    @Autowired
-    private RegionRepository regionRepository;
+    private final RegionRepository regionRepository;
 
-    public RegionDTO create(RegionDTO dto) {
+    public RegionRequestDTO create(RegionRequestDTO dto) {
         isValidRegion(dto);
         RegionEntity entity = new RegionEntity();
         entity.setNameUz(dto.getNameUz());
@@ -31,7 +30,7 @@ public class RegionService {
         return dto;
     }
 
-    public void isValidRegion(RegionDTO dto) {
+    public void isValidRegion(RegionRequestDTO dto) {
         if (dto.getNameUz().isEmpty() || dto.getNameUz().isBlank()) {
             throw new AppBadRequestException("invalid name uz");
         }
@@ -85,7 +84,6 @@ public class RegionService {
 
     public RegionDTO entityToDTO(RegionEntity entity) {
         RegionDTO dto = new RegionDTO();
-        dto.setId(entity.getId());
         dto.setNameUz(entity.getNameUz());
         dto.setNameEn(entity.getNameEn());
         dto.setNameRu(entity.getNameRu());
@@ -93,19 +91,41 @@ public class RegionService {
     }
 
     public List<RegionDTO> getByLang(String lang) {
-        List<RegionEntity> entityList = null;
         List<RegionDTO> dtoList = new LinkedList<>();
-        if (lang.equals("en")) {
-            entityList = regionRepository.findByNameEng();
-        } else if (lang.equals("ru")) {
-            entityList = regionRepository.findByNameRu();
-        } else if (lang.equals("uz")) {
-            for (RegionEntity entity : regionRepository.findByNameUz()) {
-                dtoList.add(entityToDTO(entity));
+        switch (lang) {
+            case "en" -> {
+                for (RegionEntity entity : regionRepository.findByNameEng()) {
+                    dtoList.add(entityToDTO(entity));
+                }
             }
-        } else {
-            throw new AppBadRequestException("not found '" + lang + "'");
+            case "ru" -> {
+                for (RegionEntity entity : regionRepository.findByNameRu()) {
+                    dtoList.add(entityToDTO(entity));
+                }
+            }
+            case "uz" -> {
+                for (RegionEntity entity : regionRepository.findByNameUz()) {
+                    dtoList.add(entityToDTO(entity));
+                }
+            }
+            default -> throw new AppBadRequestException("not found '" + lang + "'");
         }
         return dtoList;
+    }
+
+    public RegionEntity get(Integer regionId) {
+        Optional<RegionEntity> optional = regionRepository.findById(regionId);
+        if (optional.isEmpty()) {
+            throw new ProfileNotFoundException("profile not found");
+        }
+        return optional.get();
+    }
+
+    public RegionEntity get(String regionName) {
+        RegionEntity region = regionRepository.getByName(regionName);
+        if (region == null) {
+            throw new RegionNotFoundException("not fount region");
+        }
+        return region;
     }
 }

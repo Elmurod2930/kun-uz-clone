@@ -1,11 +1,12 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.ArticleTypeDTO;
+import com.example.kunuz.dto.articleType.ArticleTypeDTO;
+import com.example.kunuz.dto.articleType.ArticleTypeRequestDTO;
 import com.example.kunuz.entity.ArticleTypeEntity;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ArticleTypeNotFoundException;
 import com.example.kunuz.repository.ArticleTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -13,9 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ArticleTypeService {
-    @Autowired
-    private ArticleTypeRepository articleTypeRepository;
+    private final ArticleTypeRepository articleTypeRepository;
 
     public ArticleTypeDTO updateById(Integer id, ArticleTypeDTO dto) {
         Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(id);
@@ -31,13 +32,12 @@ public class ArticleTypeService {
                 entity.setNameRu(dto.getNameRu());
             }
             articleTypeRepository.save(entity);
-            dto.setId(id);
             return dto;
         }
         throw new AppBadRequestException("not found article type");
     }
 
-    public ArticleTypeDTO create(ArticleTypeDTO dto, Integer adminId) {
+    public ArticleTypeRequestDTO create(ArticleTypeRequestDTO dto, Integer adminId) {
         isValidProfile(dto);
         ArticleTypeEntity entity = new ArticleTypeEntity();
         entity.setNameUz(dto.getNameUz());
@@ -48,7 +48,7 @@ public class ArticleTypeService {
         return dto;
     }
 
-    public void isValidProfile(ArticleTypeDTO dto) {
+    public void isValidProfile(ArticleTypeRequestDTO dto) {
         // throw ...
         if (dto.getNameUz() == null) {
             throw new AppBadRequestException("invalid name uz");
@@ -76,14 +76,13 @@ public class ArticleTypeService {
         Iterable<ArticleTypeEntity> entityList = articleTypeRepository.findAll();
         List<ArticleTypeDTO> dtoList = new LinkedList<>();
         for (ArticleTypeEntity entity : entityList) {
-            dtoList.add(entityToDTO(entity));
+            dtoList.add(toDTO(entity));
         }
         return dtoList;
     }
 
-    public ArticleTypeDTO entityToDTO(ArticleTypeEntity entity) {
+    public ArticleTypeDTO toDTO(ArticleTypeEntity entity) {
         ArticleTypeDTO dto = new ArticleTypeDTO();
-        dto.setId(entity.getId());
         dto.setNameEn(entity.getNameEn());
         dto.setNameRu(entity.getNameRu());
         dto.setNameUz(entity.getNameUz());
@@ -91,20 +90,32 @@ public class ArticleTypeService {
     }
 
     public List<ArticleTypeDTO> getByLang(String lang) {
-        List<ArticleTypeEntity> entityList = null;
-        if (lang.equals("en")) {
-            entityList = articleTypeRepository.findByNameEng();
-        } else if (lang.equals("ru")) {
-            entityList = articleTypeRepository.findByNameRu();
-        } else if (lang.equals("uz")) {
-            entityList = articleTypeRepository.findByNameUz();
-        } else {
-            throw new AppBadRequestException("not found '" + lang + "'");
-        }
+        List<ArticleTypeEntity> entityList = switch (lang) {
+            case "en" -> articleTypeRepository.findByNameEng();
+            case "ru" -> articleTypeRepository.findByNameRu();
+            case "uz" -> articleTypeRepository.findByNameUz();
+            default -> throw new AppBadRequestException("not found '" + lang + "'");
+        };
         List<ArticleTypeDTO> dtoList = new LinkedList<>();
         for (ArticleTypeEntity entity : entityList) {
-            dtoList.add(entityToDTO(entity));
+            dtoList.add(toDTO(entity));
         }
         return dtoList;
+    }
+
+    public ArticleTypeEntity get(Integer typeId) {
+        Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(typeId);
+        if (optional.isEmpty()) {
+            throw new ArticleTypeNotFoundException("not found type");
+        }
+        return optional.get();
+    }
+
+    public ArticleTypeEntity get(String name) {
+        ArticleTypeEntity entity = articleTypeRepository.findByName(name);
+        if (entity == null) {
+            throw new ArticleTypeNotFoundException("not fount type");
+        }
+        return entity;
     }
 }

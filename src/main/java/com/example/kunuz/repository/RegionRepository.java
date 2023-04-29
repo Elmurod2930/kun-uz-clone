@@ -4,6 +4,7 @@ import com.example.kunuz.entity.RegionEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface RegionRepository extends CrudRepository<RegionEntity, Integer>,
 
     @Query("select id,nameUz from RegionEntity where visible=true ")
     List<RegionEntity> findByNameUz();
+
+    @Query("select r from RegionEntity r where (r.nameUz=:name or r.nameRu=:name or r.nameEn=:name) and r.visible=true")
+    RegionEntity getByName(@Param("name") String name);
 }

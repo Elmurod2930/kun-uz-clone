@@ -1,13 +1,11 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.AttachDTO;
-import com.example.kunuz.dto.jwt.JwtDTO;
+import com.example.kunuz.dto.attach.AttachDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.AttachService;
 import com.example.kunuz.util.JwtUtil;
-import org.apache.tomcat.util.http.parser.Authorization;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,9 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/attach")
+@AllArgsConstructor
 public class AttachController {
-    @Autowired
-    private AttachService attachService;
+
+    private final AttachService attachService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
@@ -42,7 +41,7 @@ public class AttachController {
     @GetMapping("/pagination")
     public ResponseEntity<Page<AttachDTO>> pagination(@RequestParam("page") int page, @RequestParam("size") int size,
                                                       @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
         return ResponseEntity.ok(attachService.pagination(page, size));
     }
 

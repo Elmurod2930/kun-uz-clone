@@ -9,23 +9,19 @@ import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
-import com.example.kunuz.repository.EmailHistoryRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.JwtUtil;
 import com.example.kunuz.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AuthService {
-    @Autowired
-    private ProfileRepository profileRepository;
-    @Autowired
-    private MailSenderService mailSenderService;
-    @Autowired
-    private EmailHistoryRepository emailHistoryRepository;
+    private final ProfileRepository profileRepository;
+    private final MailSenderService mailSenderService;
 
 
     public AuthResponseDTO login(AuthDTO dto) {
@@ -49,7 +45,6 @@ public class AuthService {
     }
 
     public RegistrationResponseDTO emailVerification(String jwt) {
-        // asjkdhaksdh.daskhdkashkdja
         String email = JwtUtil.decodeEmailVerification(jwt);
         Optional<ProfileEntity> optional = profileRepository.findByEmail(email);
         if (optional.isEmpty()) {

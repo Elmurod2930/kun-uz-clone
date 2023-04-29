@@ -5,15 +5,17 @@ import com.example.kunuz.dto.auth.AuthResponseDTO;
 import com.example.kunuz.dto.auth.RegistrationDTO;
 import com.example.kunuz.dto.auth.RegistrationResponseDTO;
 import com.example.kunuz.service.AuthService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@AllArgsConstructor
 public class AuthController {
-    @Autowired
-    private AuthService authService;
+
+    private final AuthService authService;
 
     @PostMapping("/registration")
     public ResponseEntity<RegistrationResponseDTO> registration(@RequestBody RegistrationDTO dto) {

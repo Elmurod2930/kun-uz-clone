@@ -2,13 +2,13 @@ package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.dto.profile.ProfileDTO;
+import com.example.kunuz.dto.profile.ProfileRequestDTO;
 import com.example.kunuz.dto.profile.ProfileFilterRequestDTO;
 import com.example.kunuz.enums.ProfileRole;
-import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/profile")
+@AllArgsConstructor
 public class ProfileController {
-    @Autowired
-    private ProfileService profileService;
+    private final ProfileService profileService;
 
     @PostMapping({"", "/"})
-    public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<ProfileRequestDTO> create(@RequestBody @Valid ProfileRequestDTO dto,
+                                                    @RequestHeader("Authorization") String authorization) {
 
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
@@ -31,15 +31,9 @@ public class ProfileController {
 
     @PostMapping("/update")
     public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
-        dto.setId(jwtDTO.getId());
-        return ResponseEntity.ok(profileService.update(dto));
+                                                    @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        return ResponseEntity.ok(profileService.update(dto, jwtDTO.getId()));
     }
 
 
@@ -62,7 +56,7 @@ public class ProfileController {
 
     @GetMapping("/pagination")
     public ResponseEntity<Page<ProfileDTO>> pagination(@RequestParam("page") int page,
-                                                       @RequestParam("size") int size) {
+                                                              @RequestParam("size") int size) {
         Page<ProfileDTO> response = profileService.pagination(page, size);
         return ResponseEntity.ok(response);
     }
@@ -70,16 +64,13 @@ public class ProfileController {
     @PostMapping("/update-detail")
     public ResponseEntity<ProfileDTO> updateDetail(@RequestBody ProfileDTO dto,
                                                    @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        dto.setId(jwtDTO.getId());
-        return ResponseEntity.ok(profileService.update(dto));
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization);
+        return ResponseEntity.ok(profileService.update(dto, jwtDTO.getId()));
     }
 
     @PostMapping("/update-photo/{photoId}")
     public ResponseEntity<ProfileDTO> updatePhoto(@PathVariable String photoId,
-                                                  @RequestHeader("Authorization") String authorization) {
+                                                         @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization);
         return ResponseEntity.ok(profileService.updatePhoto(jwtDTO, photoId));
     }

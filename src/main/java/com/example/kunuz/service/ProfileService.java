@@ -3,18 +3,17 @@ package com.example.kunuz.service;
 import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.dto.profile.ProfileDTO;
 import com.example.kunuz.dto.profile.ProfileFilterRequestDTO;
+import com.example.kunuz.dto.profile.ProfileRequestDTO;
 import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.AttachNotFoundException;
-import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.ProfileNotFoundException;
-import com.example.kunuz.repository.AttachRepository;
 import com.example.kunuz.repository.ProfileCustomRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +23,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ProfileService {
-    @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private AttachRepository attachRepository;
-    @Autowired
+    private AttachService attachService;
     private ProfileCustomRepository profileCustomRepository;
 
-    public ProfileDTO create(ProfileDTO dto, Integer adminId) {
-        // check - homework
+    public ProfileRequestDTO create(ProfileRequestDTO dto, Integer adminId) {
         isValidProfile(dto);
-
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
@@ -48,14 +43,11 @@ public class ProfileService {
         entity.setStatus(GeneralStatus.ACTIVE);
         entity.setPrtId(adminId);
         profileRepository.save(entity);  // save profile
-
         dto.setPassword(null);
-        dto.setId(entity.getId());
         return dto;
     }
 
-    public void isValidProfile(ProfileDTO dto) {
-        // throw ...
+    public void isValidProfile(ProfileRequestDTO dto) {
         if (dto.getEmail().isEmpty() || dto.getEmail().isBlank()) {
             throw new AppBadRequestException("invalid email");
         }
@@ -87,7 +79,6 @@ public class ProfileService {
 
     public ProfileDTO entityToDto(ProfileEntity entity) {
         ProfileDTO dto = new ProfileDTO();
-        dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
         dto.setRole(entity.getRole());
         dto.setPhone(entity.getPhone());
@@ -99,6 +90,7 @@ public class ProfileService {
 
     public ProfileDTO getById(Integer id) {
         Optional<ProfileEntity> entity = profileRepository.findById(id);
+        assert null != entity.orElse(null);
         return entityToDto(entity.orElse(null));
     }
 
@@ -116,21 +108,20 @@ public class ProfileService {
 
     public Page<ProfileDTO> pagination(int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
-        Pageable paging = PageRequest.of(page - 1, size);
+        Pageable paging = PageRequest.of(page - 1, size,sort);
         Page<ProfileEntity> pageObj = profileRepository.findAll(paging);
-        Long totalCount = pageObj.getTotalElements();
+        long totalCount = pageObj.getTotalElements();
         List<ProfileEntity> entityList = pageObj.getContent();
         List<ProfileDTO> dtoList = new LinkedList<>();
         for (ProfileEntity entity : entityList) {
             dtoList.add(entityToDto(entity));
         }
 
-        Page<ProfileDTO> response = new PageImpl<>(dtoList, paging, totalCount);
-        return response;
+        return new PageImpl<>(dtoList, paging, totalCount);
     }
 
-    public ProfileDTO update(ProfileDTO dto) {
-        Optional<ProfileEntity> optional = profileRepository.findById(dto.getId());
+    public ProfileDTO update(ProfileDTO dto, Integer adminId) {
+        Optional<ProfileEntity> optional = profileRepository.findById(adminId);
         if (optional.isPresent()) {
             ProfileEntity entity = optional.get();
             if (dto.getPhone() != null) {
@@ -156,13 +147,13 @@ public class ProfileService {
         if (optionalProfile.isEmpty()) {
             throw new ProfileNotFoundException("not found profile");
         }
-        Optional<AttachEntity> optionalAttach = attachRepository.findById(photoId);
-        if (optionalAttach.isEmpty()) {
+        AttachEntity attachEntity = attachService.get(photoId);
+        if (attachEntity == null) {
             throw new AttachNotFoundException("not found attach");
         }
         ProfileEntity entity = optionalProfile.get();
         // todo  entity.getPhoto() photo delete qilish kk
-        entity.setPhoto(optionalAttach.get());
+        entity.setAttach(attachEntity);
         profileRepository.save(entity);
         return entityToDto(entity);
     }
@@ -174,5 +165,13 @@ public class ProfileService {
             dtoList.add(entityToDto(entity));
         }
         return dtoList;
+    }
+
+    public ProfileEntity get(Integer moderId) {
+        Optional<ProfileEntity> optional = profileRepository.findById(moderId);
+        if (optional.isEmpty()) {
+            throw new ProfileNotFoundException("profile not found");
+        }
+        return optional.get();
     }
 }

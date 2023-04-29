@@ -1,11 +1,11 @@
-package com.example.kunuz.dto;
+package com.example.kunuz.dto.articleType;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryDTO {
+public class ArticleTypeDTO {
     private Integer id;
     private String nameUz;
     private String nameRu;

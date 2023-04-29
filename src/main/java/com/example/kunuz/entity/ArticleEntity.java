@@ -8,39 +8,40 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 
-@Entity
-@Table(name = "article")
-@Setter
 @Getter
+@Setter
+@Table(name = "article")
+@Entity
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "title")
+    @Column(name = "title", columnDefinition = "text")
     private String title;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private PublisherStatus status = PublisherStatus.NOT_PUBLISHED;
     @Column(name = "shared_count")
-    private Integer sharedCount;
-    @Column(name = "image_id")
-    private String imageId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private Integer sharedCount = 0;
+    @ManyToOne
+    @JoinColumn(name = "attach_id")
+    private AttachEntity attach;
+    @ManyToOne
     @JoinColumn(name = "region_id")
     private RegionEntity region;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "moderator_id")
     private ProfileEntity moderator;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "publisher_id")
     private ProfileEntity publisher;
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private PublisherStatus status = PublisherStatus.NOT_PUBLISHED;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
     @Column(name = "published_date")
@@ -49,8 +50,7 @@ public class ArticleEntity {
     private Boolean visible = Boolean.TRUE;
     @Column(name = "view_count")
     private Integer viewCount;
-    @ManyToOne
-    @JoinColumn(name = "article_type_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id")
     private ArticleTypeEntity type;
-
 }
