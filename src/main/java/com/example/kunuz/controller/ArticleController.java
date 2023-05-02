@@ -47,9 +47,17 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.changeStatus(id));
     }
 
-    @GetMapping("/{typeId}")
-    public ResponseEntity<List<ArticleDTO>> articleShortInfo(@PathVariable("typeId") Integer typeId) {
-        List<ArticleDTO> dtoList = articleService.articleShortInfo(typeId);
+    // 5
+    @GetMapping("/get5TypeArticle/{typeId}")
+    public ResponseEntity<List<ArticleDTO>> get5TypeArticle(@PathVariable("typeId") Integer typeId) {
+        List<ArticleDTO> dtoList = articleService.get5TypeArticle(typeId);
+        return ResponseEntity.ok(dtoList);
+    }
+
+    // 6
+    @GetMapping("/get3TypeArticle/{typeId}")
+    public ResponseEntity<List<ArticleDTO>> get3TypeArticle(@PathVariable("typeId") Integer typeId) {
+        List<ArticleDTO> dtoList = articleService.get3TypeArticle(typeId);
         return ResponseEntity.ok(dtoList);
     }
 

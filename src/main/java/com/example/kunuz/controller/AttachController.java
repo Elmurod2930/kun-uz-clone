@@ -21,9 +21,9 @@ public class AttachController {
     private final AttachService attachService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
-        String fileName = attachService.saveToSystem3(file);
-        return ResponseEntity.ok().body(fileName);
+    public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file) {
+        AttachDTO attachDTO = attachService.saveToSystem3(file);
+        return ResponseEntity.ok().body(attachDTO);
     }
 
     @GetMapping(value = "/open_general_by_id/{id}", produces = MediaType.ALL_VALUE)
@@ -51,7 +51,7 @@ public class AttachController {
     public byte[] open(@PathVariable("fileName") String fileName) {
         if (fileName != null && fileName.length() > 0) {
             try {
-                return this.attachService.loadImage(fileName);
+                return this.attachService.loadImage2(fileName);
             } catch (Exception e) {
                 e.printStackTrace();
                 return new byte[0];

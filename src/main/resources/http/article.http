@@ -1,9 +1,9 @@
 ### Article Short Info
-GET localhost:8081/api/v1/article/1
+GET localhost:8081/api/v1/article/get3TypeArticle/
 
 ### create article
 POST localhost:8081/api/v1/article/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI2NzgwNDEsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNzY0NDQxLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.5gK8TtdCpdkzrJClLciC0lHxNzjI5YGkPP_JbQFGOd7yCF9Wl0XcG_wYqQn-H7ZvUWqJp4kWynZnMYlkp8lkqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NzUzNjIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyODYxNzYyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.139WQ5CN31G_iQUpC8ZS5Fsa6UVr-sFNP6XL0KK_aZ_UCvhaKEwSdByPR91RaFl095m-A0uI2hTHqDYgGvFbpA
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
   "description": "ccccccccccccc",
   "content": "ccccccccc",
   "shared_count": 0,
-  "image_id": 4,
+  "attachId": 4,
   "region_id": 1,
   "category_id": 1
 }

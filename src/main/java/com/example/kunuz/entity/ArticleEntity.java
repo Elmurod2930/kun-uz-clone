@@ -3,6 +3,7 @@ package com.example.kunuz.entity;
 import com.example.kunuz.enums.PublisherStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "article")
 @Entity
+@NoArgsConstructor
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,20 +29,25 @@ public class ArticleEntity {
     private PublisherStatus status = PublisherStatus.NOT_PUBLISHED;
     @Column(name = "shared_count")
     private Integer sharedCount = 0;
+    @Column(name = "attach_id")
+    private String attachId;
     @ManyToOne
-    @JoinColumn(name = "attach_id")
+    @JoinColumn(name = "attach_id",insertable = false,updatable = false)
     private AttachEntity attach;
     @ManyToOne
     @JoinColumn(name = "region_id")
     private RegionEntity region;
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",insertable = false,updatable = false)
     private CategoryEntity category;
     @ManyToOne
     @JoinColumn(name = "moderator_id")
     private ProfileEntity moderator;
+
+    @Column(name = "publisher_id")
+    private Integer publisherId;
     @ManyToOne
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn(name = "publisher_id",insertable = false,updatable = false)
     private ProfileEntity publisher;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
@@ -50,7 +57,19 @@ public class ArticleEntity {
     private Boolean visible = Boolean.TRUE;
     @Column(name = "view_count")
     private Integer viewCount;
+    @Column(name = "type_id")
+    private Integer typeId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "type_id",insertable = false,updatable = false)
     private ArticleTypeEntity type;
+
+
+
+    public ArticleEntity(String id, String title, String description, String attachId, LocalDateTime publishedDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.attachId = attachId;
+        this.publishedDate = publishedDate;
+    }
 }

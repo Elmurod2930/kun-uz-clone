@@ -4,6 +4,7 @@ import com.example.kunuz.dto.attach.AttachDTO;
 import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.AttachRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
@@ -20,6 +21,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,8 +31,10 @@ import java.util.UUID;
 public class AttachService {
     @Autowired
     private AttachRepository attachRepository;
+    @Value("${server.host}")
+    private String serverHost;
 
-    public String saveToSystem3(MultipartFile file) {
+    public AttachDTO saveToSystem3(MultipartFile file) {
         try {
             String pathFolder = getYmDString(); // 2022/04/23
             File folder = new File("attaches/" + pathFolder);  // attaches/2023/04/26
@@ -42,6 +46,7 @@ public class AttachService {
 
             AttachEntity attachEntity = new AttachEntity();
             attachEntity.setId(UUID.randomUUID().toString());
+            attachEntity.setCreatedData(LocalDateTime.now());
             attachEntity.setExtension(extension);
             attachEntity.setSize(file.getSize());
             attachEntity.setPath(pathFolder);
@@ -51,7 +56,13 @@ public class AttachService {
             Path path = Paths.get("attaches/" + pathFolder + "/" + attachEntity.getId() + "." + extension);
             // attaches/2023/04/26/uuid().jpg
             Files.write(path, bytes);
-            return attachEntity.getId() + "." + extension;
+
+            AttachDTO dto = new AttachDTO();
+            dto.setId(attachEntity.getId());
+            dto.setOriginalName(file.getOriginalFilename());
+            dto.setUrl(serverHost + "/api/v1/attach/open/" + attachEntity.getId() + "." + extension);
+
+            return dto;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -167,6 +178,21 @@ public class AttachService {
         }
     }
 
+    public byte[] loadImage2(String attachId) {
+//        int lastIndex = attachName.lastIndexOf(".");
+//        String id = attachName.substring(0, lastIndex);
+        AttachEntity attachEntity = get(attachId);
+        byte[] data;
+        try {
+            Path file = Paths.get("attaches/" + attachEntity.getPath() + "/" + attachId + "." + attachEntity.getExtension());
+            data = Files.readAllBytes(file);
+            return data;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
     public byte[] open_general(String attachName) {
         byte[] data;
         try {
@@ -224,6 +250,13 @@ public class AttachService {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
+    }
+
+    public AttachDTO getAttachLink(String attachId) {
+        AttachDTO dto = new AttachDTO();
+        dto.setId(attachId);
+        dto.setUrl(serverHost + "/api/v1/attach/open/" + attachId);
+        return dto;
     }
 
 }

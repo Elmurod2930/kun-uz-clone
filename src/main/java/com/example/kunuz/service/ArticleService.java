@@ -1,6 +1,7 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.article.ArticleDTO;
+import com.example.kunuz.dto.attach.AttachDTO;
 import com.example.kunuz.dto.article.ArticleFullInfoDTO;
 import com.example.kunuz.dto.article.ArticleResponseDTO;
 import com.example.kunuz.dto.article.ArticleShortInfoDTO;
@@ -8,8 +9,10 @@ import com.example.kunuz.entity.*;
 import com.example.kunuz.enums.PublisherStatus;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ArticleNotFoundException;
+import com.example.kunuz.mapper.ArticleShortInfoMapper;
 import com.example.kunuz.repository.ArticleRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.swing.event.ListDataEvent;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +35,7 @@ public class ArticleService {
     private final ProfileService profileService;
     private final AttachService attachService;
     private final ArticleRepository articleRepository;
+
 
     public ArticleResponseDTO create(ArticleResponseDTO dto, Integer moderId) {
         // check
@@ -122,9 +127,20 @@ public class ArticleService {
         throw new ArticleNotFoundException("article not found");
     }
 
-    public List<ArticleDTO> articleShortInfo(Integer typeId) {
+
+    public List<ArticleDTO> get5TypeArticle(Integer typeId) {
         ArticleTypeEntity typeEntity = articleTypeService.get(typeId);
-        List<ArticleEntity> entityList = articleRepository.findAllByType(typeEntity);
+        List<ArticleEntity> entityList = articleRepository.findAllByType5(typeEntity);
+        List<ArticleDTO> dtoList = new LinkedList<>();
+        for (ArticleEntity entity : entityList) {
+            dtoList.add(entityToDTO(entity));
+        }
+        return dtoList;
+    }
+
+    public List<ArticleDTO> get3TypeArticle(Integer typeId) {
+        ArticleTypeEntity typeEntity = articleTypeService.get(typeId);
+        List<ArticleEntity> entityList = articleRepository.findAllByType3(typeEntity);
         List<ArticleDTO> dtoList = new LinkedList<>();
         for (ArticleEntity entity : entityList) {
             dtoList.add(entityToDTO(entity));
@@ -184,7 +200,7 @@ public class ArticleService {
 
     public ArticleShortInfoDTO toShortInfo(ArticleEntity entity) {
         ArticleShortInfoDTO dto = new ArticleShortInfoDTO();
-        dto.setAttach(entity.getAttach());
+        dto.setAttach(attachService.getAttachLink(entity.getAttachId()));
         dto.setId(entity.getId());
         dto.setPublishedDate(entity.getPublishedDate());
         dto.setDescription(entity.getDescription());
@@ -247,5 +263,49 @@ public class ArticleService {
             dtoList.add(toShortInfo(entity));
         }
         return dtoList;
+    }
+
+    // ===========================================================================================================
+    public ArticleShortInfoDTO toArticleShortInfo(ArticleEntity entity) {
+        ArticleShortInfoDTO dto = new ArticleShortInfoDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setPublishedDate(entity.getPublishedDate());
+        dto.setAttach(attachService.getAttachLink(entity.getAttachId()));
+        return dto;
+    }
+
+    public List<ArticleShortInfoDTO> getLast5ByTypeId(Integer typeId) {
+        List<ArticleEntity> entityList = articleRepository.findTop5ByTypeIdAndStatusAndVisibleOrderByCreatedDateDesc(typeId,
+                PublisherStatus.PUBLISHED, true);
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        entityList.forEach(entity -> {
+            dtoList.add(toArticleShortInfo(entity));
+        });
+        return dtoList;
+    }
+
+
+    public Boolean changeStatus(PublisherStatus status, String id, Integer prtId) {
+        ArticleEntity entity = get(id);
+        if (status.equals(PublisherStatus.PUBLISHED)) {
+            entity.setPublishedDate(LocalDateTime.now());
+            entity.setPublisherId(prtId);
+        }
+        entity.setStatus(status);
+        articleRepository.save(entity);
+        // articleRepository.changeStatus(status, id);
+        return true;
+    }
+
+    public ArticleShortInfoDTO toArticleShortInfo(ArticleShortInfoMapper entity) {
+        ArticleShortInfoDTO dto = new ArticleShortInfoDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setPublishedDate(entity.getPublished_date());
+        dto.setAttach(attachService.getAttachLink(entity.getAttachId()));
+        return dto;
     }
 }
