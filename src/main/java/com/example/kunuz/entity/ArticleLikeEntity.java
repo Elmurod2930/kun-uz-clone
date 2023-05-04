@@ -20,10 +20,10 @@ public class ArticleLikeEntity {
     @JoinColumn(name = "profile_id",updatable = false,insertable = false)
     private ProfileEntity profile;
     @Column(name = "article_Id")
-    private Integer articleId;
+    private String articleId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_Id",updatable = false,insertable = false)
-    private CommentEntity article;
+    private ArticleEntity article;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
     @Column(name = "status")

@@ -59,6 +59,10 @@ public class ArticleEntity {
     private Integer viewCount;
     @Column(name = "type_id")
     private Integer typeId;
+    @Column(name = "like_count")
+    private Integer likeCount;
+    @Column(name = "disLike_count")
+    private Integer disLikeCount;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id",insertable = false,updatable = false)
     private ArticleTypeEntity type;
