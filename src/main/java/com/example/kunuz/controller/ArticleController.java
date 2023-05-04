@@ -122,4 +122,15 @@ public class ArticleController {
         List<ArticleShortInfoDTO> list = articleService.getCategoryArticle(id, size, page);
         return ResponseEntity.ok(list);
     }
+
+    // 16
+    @PutMapping("/articleViewCount/{id}")
+    public ResponseEntity<ArticleDTO> articleViewCount(@PathVariable String id){
+        return ResponseEntity.ok(articleService.articleViewCount(id));
+    }
+    // 17
+    @PutMapping("/articleShareCount/{id}")
+    public ResponseEntity<ArticleDTO> articleShareCount(@PathVariable String id){
+        return ResponseEntity.ok(articleService.articleShareCount(id));
+    }
 }

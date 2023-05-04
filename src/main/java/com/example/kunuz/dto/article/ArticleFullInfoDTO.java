@@ -1,5 +1,6 @@
 package com.example.kunuz.dto.article;
 
+import com.example.kunuz.dto.region.RegionDTO;
 import com.example.kunuz.entity.RegionEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class ArticleFullInfoDTO {
     private String description;
     private String content;
     private Integer sharedCount;
-    private RegionEntity region;
+    private RegionDTO region;
     private LocalDateTime publishedDate;
     private Integer viewCount;
     private Integer likeCount;

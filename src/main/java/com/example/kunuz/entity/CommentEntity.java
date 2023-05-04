@@ -35,6 +35,11 @@ public class CommentEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reply_id", insertable = false, updatable = false)
     private CommentEntity reply;
+    @Column(name = "like_count")
+    private Integer likeCount;
+    @Column(name = "disLike_count")
+    private Integer disLikeCount;
     @Column(name = "visible")
     private boolean visible = Boolean.TRUE;
+
 }

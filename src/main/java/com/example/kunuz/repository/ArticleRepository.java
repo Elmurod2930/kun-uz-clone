@@ -20,6 +20,7 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
         PagingAndSortingRepository<ArticleEntity, String> {
     @Query(value = "select a from ArticleEntity a where type=:typeEntity order by createdDate limit 3", nativeQuery = true)
     List<ArticleEntity> findAllByType3(@Param("typeEntity") ArticleTypeEntity typeEntity);
+
     @Query(value = "select a from ArticleEntity a where type=:typeEntity order by createdDate limit 5", nativeQuery = true)
     List<ArticleEntity> findAllByType5(@Param("typeEntity") ArticleTypeEntity typeEntity);
 
@@ -41,6 +42,7 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
 
     @Query("select a from ArticleEntity a where a.type=:type and a.id <>:id and a.visible=true order by a.createdDate desc limit 4")
     List<ArticleEntity> findByTypeIdAndIdNot(@Param("type") ArticleTypeEntity type, @Param("id") String id);
+
     // ===========================================================================================================
 //    @Query("From ArticleEntity where status =:status and visible = true and typeId =:typeId order by createdDate desc limit 5")
 //    List<ArticleEntity> find5ByTypeId(@Param("typeId") Integer typeId, @Param("status") PublisherStatus status);
@@ -57,5 +59,6 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
     List<ArticleEntity> findTop5ByTypeIdAndStatusAndVisibleOrderByCreatedDateDesc(Integer typeId,
                                                                                   PublisherStatus status,
                                                                                   Boolean visible);
+
 
 }

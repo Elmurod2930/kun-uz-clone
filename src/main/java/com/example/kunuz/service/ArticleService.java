@@ -179,7 +179,7 @@ public class ArticleService {
         ArticleEntity entity = get(id);
         ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
         dto.setId(entity.getId());
-        dto.setRegion(entity.getRegion());
+        dto.setRegion(regionService.entityToDTO(entity.getRegion()));
         dto.setPublishedDate(entity.getPublishedDate());
         dto.setSharedCount(entity.getSharedCount());
         dto.setViewCount(entity.getViewCount());
@@ -307,5 +307,19 @@ public class ArticleService {
         dto.setPublishedDate(entity.getPublished_date());
         dto.setAttach(attachService.getAttachLink(entity.getAttachId()));
         return dto;
+    }
+
+    public ArticleDTO articleViewCount(String id) {
+        ArticleEntity entity = get(id);
+        entity.setViewCount(entity.getViewCount() + 1);
+        articleRepository.save(entity);
+        return entityToDTO(entity);
+    }
+
+    public ArticleDTO articleShareCount(String id) {
+        ArticleEntity entity = get(id);
+        entity.setSharedCount(entity.getSharedCount() + 1);
+        articleRepository.save(entity);
+        return entityToDTO(entity);
     }
 }
