@@ -3,7 +3,7 @@ GET localhost:8081/api/v1/article/get3TypeArticle/
 
 ### create article
 POST localhost:8081/api/v1/article/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NzUzNjIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyODYxNzYyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.139WQ5CN31G_iQUpC8ZS5Fsa6UVr-sFNP6XL0KK_aZ_UCvhaKEwSdByPR91RaFl095m-A0uI2hTHqDYgGvFbpA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNzU1NzAsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNDYxOTcwLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.4D3-SENWbYnA6yijGfgjMZ_W-3ROgZ5psH3ZUXVzFT9Es48pF3AAyr0HPuMl7ah4-_TCby9CyUV-qhLkUCM_Zw
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ### delete article
 DELETE localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNTA0MjQyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.al_Bvt5s40Y4hZQtH-0NGB_hvDPJ-keXHUUa8kJOvp1c1M2d-SEqryhYa9hCf0cTe--aUowu1MM4e1VOhtUDIw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNzU1NzAsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNDYxOTcwLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.4D3-SENWbYnA6yijGfgjMZ_W-3ROgZ5psH3ZUXVzFT9Es48pF3AAyr0HPuMl7ah4-_TCby9CyUV-qhLkUCM_Zw
 
 ### change status
 PUT localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3

@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -45,6 +46,7 @@ public class ArticleService {
         CategoryEntity category = categoryService.get(dto.getCategoryId());
 
         ArticleEntity entity = new ArticleEntity();
+        entity.setId(UUID.randomUUID().toString());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());

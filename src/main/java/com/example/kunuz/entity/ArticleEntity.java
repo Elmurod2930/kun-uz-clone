@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ArticleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "title", columnDefinition = "text")
     private String title;

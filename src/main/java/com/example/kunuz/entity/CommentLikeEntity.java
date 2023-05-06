@@ -28,7 +28,7 @@ public class CommentLikeEntity {
     private CommentEntity comment;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
-    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private LikeStatus status;
 
 }
