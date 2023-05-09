@@ -2,14 +2,14 @@
 GET localhost:8081/api/v1/article/get3TypeArticle/
 
 ### create article
-POST localhost:8081/api/v1/article/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNzU1NzAsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNDYxOTcwLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.4D3-SENWbYnA6yijGfgjMZ_W-3ROgZ5psH3ZUXVzFT9Es48pF3AAyr0HPuMl7ah4-_TCby9CyUV-qhLkUCM_Zw
+POST localhost:8081/api/v1/article/private
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MTExMTcsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNjk3NTE3LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.CMbES9v8XecwtqCAwzp6UBNFbJaoS4l7sc3C5ho3O5iqSOcgcwb8uGk8thT8QwZb1encUuNbjEbNzAGGR8vcTw
 Content-Type: application/json
 
 {
-  "title": "ccccccccc",
-  "description": "ccccccccccccc",
-  "content": "ccccccccc",
+  "title": "bbbb",
+  "description": "bbbb",
+  "content": "bbbbbbbb",
   "shared_count": 0,
   "attachId": 4,
   "region_id": 1,
@@ -17,8 +17,8 @@ Content-Type: application/json
 }
 
 ### update article
-POST localhost:8081/api/v1/article/1b321832-598a-4997-bbbf-5d1ef0de4fc3
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MTc4NDIsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNTA0MjQyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.al_Bvt5s40Y4hZQtH-0NGB_hvDPJ-keXHUUa8kJOvp1c1M2d-SEqryhYa9hCf0cTe--aUowu1MM4e1VOhtUDIw
+POST localhost:8081/api/v1/article/private/1b321832-598a-4997-bbbf-5d1ef0de4fc3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzOTEwMDgsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNDc3NDA4LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.Oni3VOKYAqmPuG0nQnzikBeZ-37PkRHQiG3FaDynPEOp1P_pqGu2OliWeqE3iFsaXn032-4iA1TiKKxjUpf9xw
 Content-Type: application/json
 
 {

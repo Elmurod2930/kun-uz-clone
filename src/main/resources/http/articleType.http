@@ -1,17 +1,17 @@
 ### create ArticleType
-POST localhost:8081/api/v1/articleType/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+POST localhost:8081/api/v1/articleType/private
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MDk2NTIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODM2OTYwNTIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.8PTM9cbGnW_VAK1SVaYvxeDf2UOlQuGBxagzLiVQGXnQYciISSkaezI-uVqCnsvW9_SqZXo5fTCc1u6i3Y4IEg
 Content-Type: application/json
 
 {
-  "nameUz": "jahon",
-  "nameRu": "mir",
-  "nameEn": "world"
+  "nameUz": "asosiy",
+  "nameRu": "основной",
+  "nameEn": "main"
 }
 
 ### update ArticleType
-POST localhost:8081/api/v1/articleType/update/1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+POST localhost:8081/api/v1/articleType/private/update//1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM0ODE3MDMsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODM1NjgxMDMsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.ushOrM7DRJc4XVr2gHxpoJCcheanulC-Ggo-VAyvzbGc1lzdnQWtcLaXjOYYjvVSJYMEFfIWrnh2TSkoC4NgEg
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### delete ArticleType
-DELETE localhost:8081/api/v1/articleType/1
+DELETE localhost:8081/api/v1/articleType/private/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
 
 ### get by lang

@@ -1,17 +1,17 @@
 ### create category
-POST localhost:8081/api/v1/category/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+POST localhost:8081/api/v1/category/private
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MDk2NTIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODM2OTYwNTIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.8PTM9cbGnW_VAK1SVaYvxeDf2UOlQuGBxagzLiVQGXnQYciISSkaezI-uVqCnsvW9_SqZXo5fTCc1u6i3Y4IEg
 Content-Type: application/json
 
 {
-  "nameUz": "Uzbekisto",
-  "nameRu": "Узбекистан",
-  "nameEn": "Uzbekistan"
+  "nameUz": "Jahon",
+  "nameRu": "Мир",
+  "nameEn": "World"
 }
 
 ### update category
-POST localhost:8081/api/v1/category/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+POST localhost:8081/api/v1/category/private/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM0ODAxNDQsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODM1NjY1NDQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.-KgL4GDr68wipGGyaawHQpKZVR6UQryLUgf6axiPzcLFLiEbSClK8TL3-6cBGTT7NEWYg2oSUpjfixusWxnRGw
 Content-Type: application/json
 
 {

@@ -4,6 +4,7 @@ import com.example.kunuz.dto.email.EmailHistoryDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.EmailHistoryService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,10 @@ public class EmailHistoryController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/private/pagination")
     public ResponseEntity<Page<EmailHistoryDTO>> pagination(@RequestParam("page") int page, @RequestParam("size") int size,
-                                                            @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                                            HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(emailHistoryService.pagination(page, size));
     }
 }

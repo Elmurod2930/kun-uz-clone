@@ -30,22 +30,22 @@ public class ArticleEntity {
     private Integer sharedCount = 0;
     @Column(name = "attach_id")
     private String attachId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attach_id",insertable = false,updatable = false)
     private AttachEntity attach;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private RegionEntity region;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id",insertable = false,updatable = false)
     private CategoryEntity category;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "moderator_id")
     private ProfileEntity moderator;
 
     @Column(name = "publisher_id")
     private Integer publisherId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id",insertable = false,updatable = false)
     private ProfileEntity publisher;
     @Column(name = "created_date")

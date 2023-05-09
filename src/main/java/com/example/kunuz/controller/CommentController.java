@@ -7,6 +7,7 @@ import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.CommentService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,9 +26,9 @@ public class CommentController {
     // 1
     @PostMapping("/")
     public ResponseEntity<CommentRequestDTO> create(@RequestBody @Valid CommentRequestDTO dto,
-                                                    @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization);
-        CommentRequestDTO requestDTO = commentService.create(dto, jwtDTO.getId());
+                                                    HttpServletRequest request) {
+//        JwtDTO jwtDTO = JwtUtil.checkForRequiredRole(request,ProfileRole.values());
+        CommentRequestDTO requestDTO = commentService.create(dto);//, jwtDTO.getId());
         return ResponseEntity.ok(requestDTO);
     }
 
@@ -56,20 +57,20 @@ public class CommentController {
     }
 
     // 5
-    @GetMapping("/pagination")
-    public ResponseEntity<Page<CommentDTO>> paging(@RequestHeader("Authorization") String authorization,
+    @GetMapping("/private/pagination")
+    public ResponseEntity<Page<CommentDTO>> paging(HttpServletRequest request,
                                                    @RequestParam("size") int size, @RequestParam("page") int page) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         Page<CommentDTO> dtoPage = commentService.paging(size, page);
         return ResponseEntity.ok(dtoPage);
     }
 
     // 6
-    @PostMapping("/filter")
-    public ResponseEntity<Page<CommentDTO>> filter(@RequestHeader("Authorization") String authorization,
+    @PostMapping("/private/filter")
+    public ResponseEntity<Page<CommentDTO>> filter(HttpServletRequest request,
                                                    @RequestParam("size") int size, @RequestParam("page") int page,
                                                    @RequestBody CommentFilterRequestDTO filterDTO) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         Page<CommentDTO> dtoPage = commentService.paging(size, page, filterDTO);
         return ResponseEntity.ok(dtoPage);
     }

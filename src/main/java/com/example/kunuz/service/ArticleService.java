@@ -42,16 +42,16 @@ public class ArticleService {
         // check
         isValidDTO(dto);
         ProfileEntity moderator = profileService.get(moderId);
-        RegionEntity region = regionService.get(dto.getRegionId());
-        CategoryEntity category = categoryService.get(dto.getCategoryId());
+//        RegionEntity region = regionService.get(dto.getRegionId());
+//        CategoryEntity category = categoryService.get(dto.getCategoryId());
 
         ArticleEntity entity = new ArticleEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());
-        entity.setRegion(region);
-        entity.setCategory(category);
+//        entity.setRegion(region);
+//        entity.setCategory(category);
         entity.setModerator(moderator);
         // type
         articleRepository.save(entity);

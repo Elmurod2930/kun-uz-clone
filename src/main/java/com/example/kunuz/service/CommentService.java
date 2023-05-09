@@ -22,11 +22,11 @@ public class CommentService {
     private final ProfileService profileService;
     private final ArticleService articleService;
 
-    public CommentRequestDTO create(CommentRequestDTO dto, Integer profileId) {
+    public CommentRequestDTO create(CommentRequestDTO dto){//, Integer profileId) {
         CommentEntity entity = new CommentEntity();
         entity.setArticleId(dto.getArticleId());
         entity.setContent(dto.getContent());
-        entity.setProfileId(profileId);
+//        entity.setProfileId(profileId);
         entity.setReplyId(dto.getReplyId());
         commentRepository.save(entity);
         return dto;

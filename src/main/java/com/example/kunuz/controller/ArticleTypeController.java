@@ -6,6 +6,7 @@ import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleTypeService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,31 +21,31 @@ public class ArticleTypeController {
 
     private final ArticleTypeService articleTypeService;
 
-    @PostMapping({"", "/"})
+    @PostMapping("/private")
     public ResponseEntity<ArticleTypeRequestDTO> create(@RequestBody @Valid ArticleTypeRequestDTO dto,
-                                                        @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                                        HttpServletRequest request) {
+        JwtDTO jwtDTO = JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(articleTypeService.create(dto, jwtDTO.getId()));
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/private/update/{id}")
     public ResponseEntity<ArticleTypeDTO> updateById(@PathVariable Integer id,
-                                                     @RequestHeader("Authorization") String authorization,
+                                                     HttpServletRequest request,
                                                      @RequestBody ArticleTypeDTO dto) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(articleTypeService.updateById(id, dto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<Boolean> deleteById(@PathVariable Integer id,
-                                              @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                              HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(articleTypeService.deleteById(id));
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<ArticleTypeDTO>> getAll(@RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+    @GetMapping("/private")
+    public ResponseEntity<List<ArticleTypeDTO>> getAll(HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(articleTypeService.getAll());
     }
     @GetMapping("/{lang}")

@@ -1,12 +1,12 @@
 ### create region
-POST localhost:8081/api/v1/region/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIwNTQyNDIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.Ut7YYjhe0wBarSLz3UjWg41JgBiD-cz8JqepqyU8fUH-BO9iu905UTTNxSaiqn7MMon25OQSCb_-SKv2K4VMcA
+POST localhost:8081/api/v1/region/private
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MDk2NTIsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODM2OTYwNTIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.8PTM9cbGnW_VAK1SVaYvxeDf2UOlQuGBxagzLiVQGXnQYciISSkaezI-uVqCnsvW9_SqZXo5fTCc1u6i3Y4IEg
 Content-Type: application/json
 
 {
-  "nameUz": "Buxoro",
-  "nameRu": "Бухара",
-  "nameEn": "Bukharo"
+  "nameUz": "Toshkent",
+  "nameRu": "Ташкент",
+  "nameEn": "Tashkent"
 }
 
 ### update region

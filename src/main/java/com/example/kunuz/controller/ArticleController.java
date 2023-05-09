@@ -8,6 +8,7 @@ import com.example.kunuz.dto.jwt.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +22,28 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
 
-    @PostMapping("/")
+    @PostMapping("/private")
     public ResponseEntity<ArticleResponseDTO> create(@RequestBody @Valid ArticleResponseDTO dto,
-                                                     @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.MODERATOR);
+                                                     HttpServletRequest request) {
+        JwtDTO jwtDTO = JwtUtil.checkForRequiredRole(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.create(dto, jwtDTO.getId()));
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<ArticleDTO> update(@RequestHeader("Authorization") String authorization,
+    @PostMapping("/private/{id}")
+    public ResponseEntity<ArticleDTO> update(HttpServletRequest request,
                                              @RequestBody ArticleDTO dto, @PathVariable String id) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.MODERATOR);
+        JwtUtil.checkForRequiredRole(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.update(dto, id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable String id,
-                                          @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.MODERATOR);
+                                          HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.delete(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/private/{id}")
     private ResponseEntity<ArticleDTO> changeStatus(@PathVariable String id) {
         return ResponseEntity.ok(articleService.changeStatus(id));
     }
@@ -125,12 +126,13 @@ public class ArticleController {
 
     // 16
     @PutMapping("/articleViewCount/{id}")
-    public ResponseEntity<ArticleDTO> articleViewCount(@PathVariable String id){
+    public ResponseEntity<ArticleDTO> articleViewCount(@PathVariable String id) {
         return ResponseEntity.ok(articleService.articleViewCount(id));
     }
+
     // 17
     @PutMapping("/articleShareCount/{id}")
-    public ResponseEntity<ArticleDTO> articleShareCount(@PathVariable String id){
+    public ResponseEntity<ArticleDTO> articleShareCount(@PathVariable String id) {
         return ResponseEntity.ok(articleService.articleShareCount(id));
     }
 }

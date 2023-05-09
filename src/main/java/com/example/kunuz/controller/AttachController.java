@@ -4,6 +4,7 @@ import com.example.kunuz.dto.attach.AttachDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.AttachService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -38,10 +39,10 @@ public class AttachController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/private/pagination")
     public ResponseEntity<Page<AttachDTO>> pagination(@RequestParam("page") int page, @RequestParam("size") int size,
-                                                      @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                                      HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(attachService.pagination(page, size));
     }
 

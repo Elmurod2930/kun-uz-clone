@@ -7,6 +7,7 @@ import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.CategoryService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,41 +22,31 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/")
+    @PostMapping("/private")
     public ResponseEntity<CategoryRequestDTO> create(@RequestBody @Valid CategoryRequestDTO dto,
-                                                     @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                                     HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/private/{id}")
     public ResponseEntity<CategoryDTO> updateById(@PathVariable Integer id,
-                                                  @RequestHeader("Authorization") String authorization,
+                                                  HttpServletRequest request,
                                                   @RequestBody CategoryDTO dto) {
-        JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.updateById(id, dto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<Boolean> deleteById(@PathVariable Integer id,
-                                              @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
+                                              HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.deleteById(id));
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<CategoryDTO>> getAll(@RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
+    @GetMapping("/private")
+    public ResponseEntity<List<CategoryDTO>> getAll(HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.getAll());
     }
 

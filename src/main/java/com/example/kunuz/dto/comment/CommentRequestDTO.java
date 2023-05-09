@@ -13,6 +13,5 @@ public class CommentRequestDTO {
     private String content;
     @NotBlank
     private String articleId;
-
     private Integer replyId;
 }

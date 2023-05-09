@@ -5,6 +5,7 @@ import com.example.kunuz.dto.region.RegionRequestDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.RegionService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,31 +19,31 @@ import java.util.List;
 public class RegionController {
     private final RegionService regionService;
 
-    @PostMapping("/")
+    @PostMapping("/private")
     public ResponseEntity<RegionRequestDTO> create(@RequestBody @Valid RegionRequestDTO dto,
-                                                   @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+                                                   HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.create(dto));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/private/{id}")
     public ResponseEntity<RegionDTO> update(@RequestBody RegionDTO dto,
-                                            @RequestHeader("Authorization") String authorization,
+                                            HttpServletRequest request,
                                             @PathVariable Integer id) {
-        JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.update(dto, id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<Boolean> deleteById(@PathVariable Integer id,
-                                              @RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+                                              HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.deleteById(id));
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<RegionDTO>> getAll(@RequestHeader("Authorization") String authorization) {
-        JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+    @GetMapping("/private/")
+    public ResponseEntity<List<RegionDTO>> getAll(HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request,ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.getAll());
     }
 

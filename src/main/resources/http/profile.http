@@ -4,12 +4,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE5Njc4NDIsImlkIjoyLCJyb
 Content-Type:  application/json
 
 {
-  "name": "Alish",
-  "surname": "Valiyev",
+  "name": "a",
+  "surname": "a",
   "email": "Valish@mail.ru",
-  "phone": "121314",
-  "password": "12345678",
-  "role": "MODERATOR"
+  "phone": "123",
+  "password": "123",
+  "role": "USER"
 }
 
 ### update profile (admin)

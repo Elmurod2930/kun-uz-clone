@@ -1,0 +1,9 @@
+### create comment
+POST localhost:8081/api/v1/comment/
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MTI4NjMsImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNjk5MjYzLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.hidRKB3vpb37fcq9yH2Yld3fv6yEbOnzEUqCkmChcOI6qimMBZGWqqU3wx5XuX4e82d1fLulvkluCG7oM-kUGg
+Content-Type: application/json
+
+{
+  "content": "yaxshi",
+  "articleId": "c6ba5e20-8bfc-48aa-a37a-9877be76e3fb"
+}

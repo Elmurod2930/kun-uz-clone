@@ -1,0 +1,7 @@
+### article like create
+GET localhost:8081/api/v1/article-like/like/7921c0c2-50c4-4474-91b0-94dd83274b7a
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MTc2MjksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNzA0MDI5LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.WfvAf9gKz_XNWRe6ixJLTht7if-UAael8cD7GFnRGN5O3eYNf2AHssZLH6_sNX_b7GGsAMMy8S-PqPUAG0O_9A
+
+### article dislike create
+GET localhost:8081/api/v1/article-like/disLike/7921c0c2-50c4-4474-91b0-94dd83274b7a
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MTc2MjksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgzNzA0MDI5LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.WfvAf9gKz_XNWRe6ixJLTht7if-UAael8cD7GFnRGN5O3eYNf2AHssZLH6_sNX_b7GGsAMMy8S-PqPUAG0O_9A

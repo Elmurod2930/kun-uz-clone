@@ -36,9 +36,9 @@ public class CommentEntity {
     @JoinColumn(name = "reply_id", insertable = false, updatable = false)
     private CommentEntity reply;
     @Column(name = "like_count")
-    private Integer likeCount;
+    private Integer likeCount=0;
     @Column(name = "disLike_count")
-    private Integer disLikeCount;
+    private Integer disLikeCount=0;
     @Column(name = "visible")
     private boolean visible = Boolean.TRUE;
 

@@ -7,6 +7,7 @@ import com.example.kunuz.dto.profile.ProfileFilterRequestDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,24 +22,25 @@ import java.util.List;
 public class ProfileController {
     private final ProfileService profileService;
 
-    @PostMapping({"", "/"})
+    @PostMapping("/private")
     public ResponseEntity<ProfileRequestDTO> create(@RequestBody @Valid ProfileRequestDTO dto,
-                                                    @RequestHeader("Authorization") String authorization) {
+                                                    HttpServletRequest request) {
 
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+        JwtDTO jwtDTO = JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/private/update")
     public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
-                                                    @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
+                                             HttpServletRequest request) {
+        JwtDTO jwtDTO = JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.update(dto, jwtDTO.getId()));
     }
 
 
-    @GetMapping("/")
-    public ResponseEntity<List<ProfileDTO>> getAll() {
+    @GetMapping("/private")
+    public ResponseEntity<List<ProfileDTO>> getAll(HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         List<ProfileDTO> dtoList = profileService.getAll();
         return ResponseEntity.ok(dtoList);
     }
@@ -49,14 +51,16 @@ public class ProfileController {
         return ResponseEntity.ok(dto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id) {
+    @DeleteMapping("/private/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.deleteById(id));
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/private/pagination")
     public ResponseEntity<Page<ProfileDTO>> pagination(@RequestParam("page") int page,
-                                                              @RequestParam("size") int size) {
+                                                       @RequestParam("size") int size, HttpServletRequest request) {
+        JwtUtil.checkForRequiredRole(request, ProfileRole.ADMIN);
         Page<ProfileDTO> response = profileService.pagination(page, size);
         return ResponseEntity.ok(response);
     }
@@ -70,7 +74,7 @@ public class ProfileController {
 
     @PostMapping("/update-photo/{photoId}")
     public ResponseEntity<ProfileDTO> updatePhoto(@PathVariable String photoId,
-                                                         @RequestHeader("Authorization") String authorization) {
+                                                  @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization);
         return ResponseEntity.ok(profileService.updatePhoto(jwtDTO, photoId));
     }

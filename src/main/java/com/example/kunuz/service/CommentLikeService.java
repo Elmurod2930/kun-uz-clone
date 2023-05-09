@@ -18,19 +18,30 @@ import java.util.Optional;
 public class CommentLikeService {
     private final CommentLikeRepository commentLikeRepository;
     private final CommentService commentService;
-    private final ProfileService profileService;
     private final CommentRepository commentRepository;
 
     public Boolean like(Integer commentId, Integer profileId) {
-        ProfileEntity profile = profileService.get(profileId);
         CommentEntity comment = commentService.get(commentId);
-        CommentLikeEntity entity = new CommentLikeEntity();
-        entity.setComment(comment);
-        entity.setProfile(profile);
-        entity.setStatus(LikeStatus.LIKE);
-        comment.setLikeCount(comment.getLikeCount() + 1);
-        commentLikeRepository.save(entity);
-        commentRepository.save(comment);
+        CommentLikeEntity entity = get(commentId, profileId);
+        if (entity == null) {
+            entity = new CommentLikeEntity();
+            entity.setStatus(LikeStatus.LIKE);
+            entity.setProfileId(profileId);
+            entity.setCommentId(commentId);
+            commentLikeRepository.save(entity);
+            return true;
+        }
+        if (entity.getStatus().equals(LikeStatus.LIKE)) {
+            commentLikeRepository.delete(entity);
+            comment.setLikeCount(comment.getLikeCount() - 1);
+        } else {
+            commentLikeRepository.delete(entity);
+            entity.setId(null);
+            entity.setStatus(LikeStatus.LIKE);
+            commentLikeRepository.save(entity);
+            comment.setDisLikeCount(comment.getDisLikeCount() - 1);
+            comment.setLikeCount(comment.getLikeCount() + 1);
+        }
         return true;
     }
 
@@ -38,23 +49,31 @@ public class CommentLikeService {
         CommentEntity comment = commentService.get(commentId);
         CommentLikeEntity entity = get(commentId, profileId);
         if (entity == null) {
-            comment.setLikeCount(comment.getLikeCount() - 1);
+            comment.setDisLikeCount(comment.getDisLikeCount() + 1);
+            entity = new CommentLikeEntity();
+            entity.setCommentId(commentId);
+            entity.setProfileId(profileId);
+            entity.setStatus(LikeStatus.DISLIKE);
+            commentLikeRepository.save(entity);
+            return true;
         }
-        comment.setDisLikeCount(comment.getDisLikeCount() + 1);
-        commentRepository.save(comment);
-        entity.setComment(comment);
-        entity.setProfileId(profileId);
-        entity.setStatus(LikeStatus.DISLIKE);
-        commentLikeRepository.save(entity);
+        if (entity.getStatus().equals(LikeStatus.LIKE)) {
+            comment.setDisLikeCount(comment.getDisLikeCount() + 1);
+            comment.setLikeCount(comment.getLikeCount() - 1);
+            commentLikeRepository.delete(entity);
+            entity.setId(null);
+            entity.setStatus(LikeStatus.DISLIKE);
+            commentLikeRepository.save(entity);
+        } else {
+            comment.setDisLikeCount(comment.getDisLikeCount() - 1);
+            commentLikeRepository.delete(entity);
+        }
         return true;
     }
 
     public CommentLikeEntity get(Integer commentId, Integer profileId) {
         Optional<CommentLikeEntity> entity = commentLikeRepository.get(commentId, profileId);
-        if (entity.isEmpty()) {
-            throw new ItemNotFoundException("not fount comment like");
-        }
-        return entity.get();
+        return entity.orElse(null);
     }
 
     public Boolean remove(Integer commentId, Integer profileId) {
